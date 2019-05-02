@@ -1,26 +1,62 @@
 <template>
     <section class="user-page">
-        <form>
-            <div class="container">
-                <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
+        <div class="container">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" v-model="email" placeholder="Enter Username" name="uname" required>
 
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
+            <label for="psw"><b>Password</b></label>
+            <input type="password"  v-model="password" placeholder="Enter Password" name="psw" required>
 
-                <button type="submit">Login</button>
-                <label>
-                    <input type="checkbox" checked="checked" name="remember"> Remember me
-                </label>
-            </div>
+            <button v-on:click="login">Login</button>
 
-            <div class="container" style="background-color:#f1f1f1">
-                <button type="button" class="cancelbtn">Cancel</button>
-                <span class="psw">Forgot <a href="#">password?</a></span>
-            </div>
-        </form>
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+            <button type="button" v-on:click="logout" class="cancelbtn">Cancel</button>
+            <span class="psw">If you don't have an account, <router-link to="/sign-up" >create account</router-link></span>
+        </div>
     </section>
 </template>
+
+<script>
+    import firebase, { functions } from 'firebase';
+
+    export default {
+        name: 'user',
+        data() {
+            return{
+                email: '',
+                password: ''
+            };
+        },
+        methods: {
+            login: function() {
+                firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+                (user) => {
+                    // special note: Using an arrow function will bind the callback to the current context, so this.$router still works.
+                    const email = user.user.email;
+                    this.$emit('user-login-email', email);
+                    this.$router.replace('home');
+                },
+                (err) => {
+                    alert('Warning! ' + err.message)
+                }
+                );
+            },
+            logout: function() {
+                firebase.auth().signOut().then(
+                    (user) => {
+                        alert('Success logging out');
+                        this.$emit('user-login-email', 'None');
+                    },
+                    (err) => {
+                        alert(`Failed logging out ${err.message}`);
+                    }
+                );
+            }
+        }
+    }
+</script>
 
 <style scoped>
     * {

@@ -8,7 +8,7 @@
                     <router-link to="/home">Home Page</router-link>
                 </li>
                 <li>
-                    <router-link to="/login">Login</router-link>
+                    <router-link to="/user">User</router-link>
                 </li>
             </ul>
         </nav>

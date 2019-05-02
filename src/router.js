@@ -3,8 +3,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from './views/Home.vue'
-import Login from './views/Login.vue'
 import SignUp from './views/SignUp.vue'
+import User from './views/User.vue'
 
 Vue.use(Router)
 
@@ -14,16 +14,16 @@ const router = new Router({
   routes: [
     {
       path: '*',
-      redirect: '/login'
+      redirect: '/user'
     },
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/user'
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
+      path: '/user',
+      name: 'user',
+      component: User
     },
     {
       path: '/sign-up',
@@ -38,15 +38,6 @@ const router = new Router({
         requiresAuth: true
       }
     }
-    // ,
-    // {
-    //   path: '/user',
-    //   name: 'user',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('./views/User.vue')
-    // }
   ]
 })
 
@@ -54,9 +45,7 @@ router.beforeEach((to, from, next) => {
   const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 
-  // alert(`${currentUser.email}`)
-
-  if (requiresAuth && !currentUser) { next('login') } else { next() }
+  if (requiresAuth && !currentUser) { next('user') } else { next() }
 })
 
 export default router

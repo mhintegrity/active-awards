@@ -3,14 +3,10 @@
         <div class="container">
             <label for="uname"><b>Username</b></label>
             <input type="text" v-model="email" placeholder="Enter Username" name="uname" required>
-
             <label for="psw"><b>Password</b></label>
             <input type="password"  v-model="password" placeholder="Enter Password" name="psw" required>
-
             <button v-on:click="login">Login</button>
-
         </div>
-
         <div class="container" style="background-color:#f1f1f1">
             <button type="button" v-on:click="logout" class="cancelbtn">Cancel</button>
             <span class="psw">If you don't have an account, <router-link to="/sign-up" >create account</router-link></span>
